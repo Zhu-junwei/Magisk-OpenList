@@ -1,0 +1,7 @@
+id=magisk-openlist
+name=Magisk OpenList
+version=v4.1.2
+versionCode=1001
+author=zjw
+description=Run Openlist server in background with Magisk
+updateJson=https://cdn.jsdelivr.net/gh/Zhu-junwei/Magisk-OpenList@main/update.json
