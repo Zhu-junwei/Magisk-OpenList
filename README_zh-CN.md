@@ -7,7 +7,7 @@
 
 ## ✨ 功能
 
-- 将 `alist` 二进制文件安装到 `/system/bin/`
+- 将 `openlist` 二进制文件安装到 `/system/bin/`
 - 自动创建数据目录 `/data/adb/openlist/`
 - 首次运行时初始化 **默认账户**：
   - 用户名：`admin`
