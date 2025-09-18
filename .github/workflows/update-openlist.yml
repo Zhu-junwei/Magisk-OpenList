@@ -107,7 +107,7 @@ jobs:
           mkdir -p tmp system/bin
           curl -L "$URL" -o tmp/$OPENLIST_TAR
           tar -xzf tmp/$OPENLIST_TAR -C tmp
-          OPENLIST_PATH=$(find tmp -type f -name alist | head -n 1)
+          OPENLIST_PATH=$(find tmp -type f -name openlist | head -n 1)
           cp "$OPENLIST_PATH" system/bin/
           chmod +x system/bin/openlist
           zip -r "magisk-openlist-$VERSION.zip" *.sh system/* META-INF/* module.prop
