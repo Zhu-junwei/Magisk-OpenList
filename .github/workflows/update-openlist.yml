@@ -109,7 +109,7 @@ jobs:
             echo "Downloading $URL"
             mkdir -p tmp/$VARIANT
             curl -L "$URL" -o tmp/$VARIANT/$TAR_NAME
-            tar -xzf tmp/$VARIANT/$TAR_NAME -C system/bin/openlist
+            tar -xzf tmp/$VARIANT/$TAR_NAME -C tmp/$VARIANT
             OPENLIST_PATH=$(find tmp/$VARIANT -type f -name openlist | head -n 1)
             cp "$OPENLIST_PATH" system/bin/openlist
             chmod +x system/bin/openlist
