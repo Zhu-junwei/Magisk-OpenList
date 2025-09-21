@@ -77,35 +77,48 @@ jobs:
           NEW_CODE=$((CURRENT_CODE+1))
           sed -i "s/^version=.*/version=$VERSION/" module.prop
           sed -i "s/^versionCode=.*/versionCode=$NEW_CODE/" module.prop
-          sed -i "s/\"version\": \".*\"/\"version\": \"$VERSION\"/" update.json
-          sed -i "s/\"versionCode\": .*/\"versionCode\": $NEW_CODE,/" update.json
-          sed -i "s#\"zipUrl\": \".*\"#\"zipUrl\": \"https://github.com/${GITHUB_REPOSITORY}/releases/download/$VERSION/magisk-openlist-$VERSION.zip\"#" update.json
+          for JSON_FILE in update-json/*.json; do
+            VARIANT=$(basename "$JSON_FILE" .json)
+            ZIP_NAME="magisk-openlist-${VARIANT}-$VERSION.zip"
+            sed -i "s/\"version\": \".*\"/\"version\": \"$VERSION\"/" "$JSON_FILE"
+            sed -i "s/\"versionCode\": [0-9]\+/\"versionCode\": $NEW_CODE/" "$JSON_FILE"
+            sed -i "s#\"zipUrl\": \".*\"#\"zipUrl\": \"https://github.com/${GITHUB_REPOSITORY}/releases/download/$VERSION/$ZIP_NAME\"#" "$JSON_FILE"
+          done
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add module.prop update.json
-          git commit -m "Auto update OpenList to ${{ needs.check.outputs.latest_version }}" || echo "No changes to commit"
+          git add module.prop update-json/*.json
+          git commit -m "Auto update OpenList to $VERSION" || echo "No changes to commit"
           git push
-          echo "Purging jsDelivr cache."
-          purge_url="https://purge.jsdelivr.net/gh/$GITHUB_REPOSITORY@$GITHUB_REF_NAME/update.json"
-          echo "Request: $purge_url"
-          response=$(curl -s -w "\nHTTP Status: %{http_code}\n" "$purge_url")
-          echo "Response:"
-          echo "$response"
+          for JSON_FILE in update-json/*.json; do
+            VARIANT=$(basename "$JSON_FILE" .json)
+            purge_url="https://purge.jsdelivr.net/gh/$GITHUB_REPOSITORY@$GITHUB_REF_NAME/update-json/${VARIANT}.json"
+            echo "Purging: $purge_url"
+            response=$(curl -s -w "\nHTTP Status: %{http_code}\n" "$purge_url")
+            echo "$response"
+          done
 
       - name: Download and prepare OpenList
         if: needs.check.outputs.released == 'false'
         run: |
           VERSION="${{ needs.check.outputs.latest_version }}"
-          OPENLIST_TAR="openlist-android-arm64.tar.gz"
-          URL="https://github.com/OpenListTeam/OpenList/releases/download/$VERSION/$OPENLIST_TAR"
-          echo "Downloading $URL"
           mkdir -p tmp system/bin
-          curl -L "$URL" -o tmp/$OPENLIST_TAR
-          tar -xzf tmp/$OPENLIST_TAR -C tmp
-          OPENLIST_PATH=$(find tmp -type f -name openlist | head -n 1)
-          cp "$OPENLIST_PATH" system/bin/
-          chmod +x system/bin/openlist
-          zip -r "magisk-openlist-$VERSION.zip" *.sh system/* META-INF/* module.prop
+          for JSON_FILE in update-json/*.json; do
+            VARIANT=$(basename "$JSON_FILE" .json)
+            TAR_NAME="openlist-android-${VARIANT}.tar.gz"
+            URL="https://github.com/OpenListTeam/OpenList/releases/download/$VERSION/$TAR_NAME"
+            echo "Downloading $URL"
+            mkdir -p tmp/$VARIANT
+            curl -L "$URL" -o tmp/$VARIANT/$TAR_NAME
+            tar -xzf tmp/$VARIANT/$TAR_NAME -C system/bin/openlist
+            OPENLIST_PATH=$(find tmp/$VARIANT -type f -name openlist | head -n 1)
+            cp "$OPENLIST_PATH" system/bin/openlist
+            chmod +x system/bin/openlist
+            sed -i "s#^updateJson=.*#updateJson=https://cdn.jsdelivr.net/gh/${GITHUB_REPOSITORY}@main/update-json/${VARIANT}.json#" module.prop
+            ZIP_NAME="magisk-openlist-${VARIANT}-$VERSION.zip"
+            zip -r "$ZIP_NAME" *.sh system/* META-INF/* module.prop
+            mv "$ZIP_NAME" tmp/
+            rm -rf system/bin/*
+          done
 
       - name: Create GitHub release
         if: needs.check.outputs.released == 'false'
@@ -114,6 +127,6 @@ jobs:
           tag: ${{ needs.check.outputs.latest_version }}
           name: ${{ needs.check.outputs.latest_version }}
           body: ${{ needs.check.outputs.release_body }}
-          artifacts: magisk-openlist-${{ needs.check.outputs.latest_version }}.zip
+          artifacts: tmp/*.zip
           draft: false
           prerelease: false
