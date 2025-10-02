@@ -73,6 +73,7 @@ jobs:
         if: needs.check.outputs.needs_update == 'true'
         run: |
           VERSION="${{ needs.check.outputs.latest_version }}"
+          RELEASE_BODY="${{ needs.check.outputs.release_body }}"
           CURRENT_CODE=$(grep '^versionCode=' module.prop | cut -d= -f2)
           NEW_CODE=$((CURRENT_CODE+1))
           sed -i "s/^version=.*/version=$VERSION/" module.prop
@@ -84,9 +85,12 @@ jobs:
             sed -i "s/\"versionCode\": [0-9]\+/\"versionCode\": $NEW_CODE/" "$JSON_FILE"
             sed -i "s#\"zipUrl\": \".*\"#\"zipUrl\": \"https://github.com/${GITHUB_REPOSITORY}/releases/download/$VERSION/$ZIP_NAME\"#" "$JSON_FILE"
           done
+          TMP_FILE=$(mktemp)
+          echo -e "## $VERSION\n\n$RELEASE_BODY\n\n$(cat update.md)" > "$TMP_FILE"
+          mv "$TMP_FILE" update.md
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add module.prop update-json/*.json
+          git add module.prop update-json/*.json update.md
           git commit -m "Auto update OpenList to $VERSION" || echo "No changes to commit"
           git push
           for JSON_FILE in update-json/*.json; do
