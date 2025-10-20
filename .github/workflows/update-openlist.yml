@@ -86,7 +86,12 @@ jobs:
             sed -i "s#\"zipUrl\": \".*\"#\"zipUrl\": \"https://github.com/${GITHUB_REPOSITORY}/releases/download/$VERSION/$ZIP_NAME\"#" "$JSON_FILE"
           done
           TMP_FILE=$(mktemp)
-          printf "## %s\n\n%s\n\n%s" "$VERSION" "$RELEASE_BODY" "$(cat update.md)" > "$TMP_FILE"
+          {
+            echo "## $VERSION"
+            echo
+            printf '%s\n\n' "$RELEASE_BODY"
+            cat update.md
+          } > "$TMP_FILE"
           mv "$TMP_FILE" update.md
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
