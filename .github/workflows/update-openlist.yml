@@ -71,9 +71,11 @@ jobs:
 
       - name: Update Version
         if: needs.check.outputs.needs_update == 'true'
+        env:
+          RELEASE_BODY_JSON: ${{ toJSON(needs.check.outputs.release_body) }}
         run: |
           VERSION="${{ needs.check.outputs.latest_version }}"
-          RELEASE_BODY="${{ needs.check.outputs.release_body }}"
+          RELEASE_BODY=$(echo "$RELEASE_BODY_JSON" | jq -r '.')
           CURRENT_CODE=$(grep '^versionCode=' module.prop | cut -d= -f2)
           NEW_CODE=$((CURRENT_CODE+1))
           sed -i "s/^version=.*/version=$VERSION/" module.prop
