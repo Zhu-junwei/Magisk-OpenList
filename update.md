@@ -1,3 +1,19 @@
+## v4.1.6
+
+### &nbsp;&nbsp;&nbsp;🚀 Features
+
+- **123**: Allow modification of the platform header &nbsp;-&nbsp; by @moyanj in https://github.com/OpenListTeam/OpenList/issues/1542 [<samp>(db8a7)</samp>](https://github.com/OpenListTeam/OpenList/commit/db8a7e8c)
+- **command**: Add --config flag to set custom config path &nbsp;-&nbsp; by @jyxjjj in https://github.com/OpenListTeam/OpenList/issues/1479 [<samp>(525f2)</samp>](https://github.com/OpenListTeam/OpenList/commit/525f26dc)
+- **strm**: Strm local file &nbsp;-&nbsp; by @Seven66677731 in https://github.com/OpenListTeam/OpenList/issues/1127 [<samp>(66d98)</samp>](https://github.com/OpenListTeam/OpenList/commit/66d98090)
+- **thunder**: Allow setting space &nbsp;-&nbsp; by @ex-hentai in https://github.com/OpenListTeam/OpenList/issues/1219 [<samp>(08574)</samp>](https://github.com/OpenListTeam/OpenList/commit/08574785)
+
+### &nbsp;&nbsp;&nbsp;🐞 Bug Fixes
+
+- **alias**: Nil panic in `ResolveLinkCacheMode` &nbsp;-&nbsp; by @varg1714 in https://github.com/OpenListTeam/OpenList/issues/1527 [<samp>(8f18e)</samp>](https://github.com/OpenListTeam/OpenList/commit/8f18e34d)
+- **aliyundrive_open**: Use safe disk usage calculation &nbsp;-&nbsp; by @NewbieOrange in https://github.com/OpenListTeam/OpenList/issues/1510 [<samp>(a0fcf)</samp>](https://github.com/OpenListTeam/OpenList/commit/a0fcfa3e)
+
+##### &nbsp;&nbsp;&nbsp;&nbsp;[View changes on GitHub](https://github.com/OpenListTeam/OpenList/compare/v4.1.5...v4.1.6)
+
 ## v4.1.5
 
 ### &nbsp;&nbsp;&nbsp;🚀 Features
