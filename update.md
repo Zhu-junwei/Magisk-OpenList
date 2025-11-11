@@ -1,3 +1,37 @@
+## v4.1.7
+
+### &nbsp;&nbsp;&nbsp;🚀 Features
+
+- **github_release**: Support Source code (zip/tar.gz) &nbsp;-&nbsp; by @KirCute in https://github.com/OpenListTeam/OpenList/issues/1581 [<samp>(c7574)</samp>](https://github.com/OpenListTeam/OpenList/commit/c7574b54)
+- **net**: Support proxy configuration via config file &nbsp;-&nbsp; by @jenfonro in https://github.com/OpenListTeam/OpenList/issues/1359 [<samp>(d88f0)</samp>](https://github.com/OpenListTeam/OpenList/commit/d88f0e8f)
+- **onedrive**: Support frontend direct upload &nbsp;-&nbsp; by @Y-ASLant in https://github.com/OpenListTeam/OpenList/issues/1532 [<samp>(39dcf)</samp>](https://github.com/OpenListTeam/OpenList/commit/39dcf9bd)
+- **stream**: Enhance GetRangeReaderFromLink rate limiting &nbsp;-&nbsp; by @j2rong4cn in https://github.com/OpenListTeam/OpenList/issues/1528 [<samp>(6de15)</samp>](https://github.com/OpenListTeam/OpenList/commit/6de15b63)
+
+### &nbsp;&nbsp;&nbsp;🐞 Bug Fixes
+
+- **189**:
+  - Disk-usage unmarshal failed when used capacity overflow &nbsp;-&nbsp; by @KirCute in https://github.com/OpenListTeam/OpenList/issues/1577 [<samp>(affc4)</samp>](https://github.com/OpenListTeam/OpenList/commit/affc4999)
+- **archive/zip**:
+  - User specific encoding for non-EFS zips &nbsp;-&nbsp; by @KirCute in https://github.com/OpenListTeam/OpenList/issues/1599 [<samp>(ee2c7)</samp>](https://github.com/OpenListTeam/OpenList/commit/ee2c77ac)
+- **backup-restore**:
+  - Add shares &nbsp;-&nbsp; by @KirCute in https://github.com/OpenListTeam/OpenList/issues/1500 [<samp>(b9f05)</samp>](https://github.com/OpenListTeam/OpenList/commit/b9f058fc)
+- **baidu_netdisk**:
+  - Support resuming uploads when an error occurs &nbsp;-&nbsp; by @jenfonro in https://github.com/OpenListTeam/OpenList/issues/1279 [<samp>(28447)</samp>](https://github.com/OpenListTeam/OpenList/commit/28447976)
+  - Improve upload experience &nbsp;-&nbsp; by @hcrgm and **Copilot** in https://github.com/OpenListTeam/OpenList/issues/1562 [<samp>(9e852)</samp>](https://github.com/OpenListTeam/OpenList/commit/9e852ba1)
+  - Fix Baidu Netdisk resume uploads sticking to the same upload host &nbsp;-&nbsp; by @jenfonro in https://github.com/OpenListTeam/OpenList/issues/1609 [<samp>(7d789)</samp>](https://github.com/OpenListTeam/OpenList/commit/7d78944d)
+- **google_driver**:
+  - Fix google link file display size &nbsp;-&nbsp; by @jenfonro in https://github.com/OpenListTeam/OpenList/issues/1335 [<samp>(9d09e)</samp>](https://github.com/OpenListTeam/OpenList/commit/9d09ee13)
+- **strm**:
+  - Non-specified type generates strm &nbsp;-&nbsp; by @Seven66677731 in https://github.com/OpenListTeam/OpenList/issues/1585 [<samp>(25f38)</samp>](https://github.com/OpenListTeam/OpenList/commit/25f38df4)
+- **terabox**:
+  - Wrong return code used &nbsp;-&nbsp; by @yuyamionini in https://github.com/OpenListTeam/OpenList/issues/1547 [<samp>(fc90e)</samp>](https://github.com/OpenListTeam/OpenList/commit/fc90ec1b)
+
+### &nbsp;&nbsp;&nbsp;🏎 Performance
+
+- **stream**: Optimize CacheFullAndWriter for better memory management &nbsp;-&nbsp; by @j2rong4cn in https://github.com/OpenListTeam/OpenList/issues/1584 [<samp>(174ea)</samp>](https://github.com/OpenListTeam/OpenList/commit/174eae80)
+
+##### &nbsp;&nbsp;&nbsp;&nbsp;[View changes on GitHub](https://github.com/OpenListTeam/OpenList/compare/v4.1.6...v4.1.7)
+
 ## v4.1.6
 
 ### &nbsp;&nbsp;&nbsp;🚀 Features
