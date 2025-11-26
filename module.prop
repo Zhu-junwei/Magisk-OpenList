@@ -1,7 +1,7 @@
 id=magisk-openlist
 name=Magisk OpenList
-version=v4.1.7
-versionCode=1006
+version=v4.1.8
+versionCode=1007
 author=zjw
 description=Run OpenList server in background with Magisk
 updateJson=https://cdn.jsdelivr.net/gh/Zhu-junwei/Magisk-OpenList@main/update-json/arm64.json

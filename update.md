@@ -1,3 +1,39 @@
+## v4.1.8
+
+### &nbsp;&nbsp;&nbsp;🚀 Features
+
+- **archive**:
+  - Support non-overwrite decompress &nbsp;-&nbsp; by @KirCute in https://github.com/OpenListTeam/OpenList/issues/1701 [<samp>(60a48)</samp>](https://github.com/OpenListTeam/OpenList/commit/60a489eb)
+- **baidu_netdisk**:
+  - Add shard upload timeout setting &nbsp;-&nbsp; by @jenfonro in https://github.com/OpenListTeam/OpenList/issues/1682 [<samp>(addce)</samp>](https://github.com/OpenListTeam/OpenList/commit/addce8b6)
+- **doubao**:
+  - Add rate limiting &nbsp;-&nbsp; by @varg1714 in https://github.com/OpenListTeam/OpenList/issues/1618 [<samp>(8f4f7)</samp>](https://github.com/OpenListTeam/OpenList/commit/8f4f7d12)
+- **fs**:
+  - Support manually trigger objs update hook &nbsp;-&nbsp; by @KirCute in https://github.com/OpenListTeam/OpenList/issues/1620 [<samp>(72e2a)</samp>](https://github.com/OpenListTeam/OpenList/commit/72e2ae1f)
+  - Add skipExisting option to move and copy, merge option to copy &nbsp;-&nbsp; by @varg1714 in https://github.com/OpenListTeam/OpenList/issues/1556 [<samp>(b22e2)</samp>](https://github.com/OpenListTeam/OpenList/commit/b22e2110)
+- **s3**:
+  - Support frontend direct upload &nbsp;-&nbsp; by @KirCute in https://github.com/OpenListTeam/OpenList/issues/1631 [<samp>(05569)</samp>](https://github.com/OpenListTeam/OpenList/commit/055696f5)
+- **search**:
+  - Add task queue for Meilisearch to prevent race conditions &nbsp;-&nbsp; by @ImoutoHeaven in https://github.com/OpenListTeam/OpenList/issues/1423 [<samp>(316d4)</samp>](https://github.com/OpenListTeam/OpenList/commit/316d4caf)
+- **strm**:
+  - Custom path prefixes &nbsp;-&nbsp; by @Seven66677731 and @jyxjjj in https://github.com/OpenListTeam/OpenList/issues/1697 [<samp>(42fc8)</samp>](https://github.com/OpenListTeam/OpenList/commit/42fc841d)
+  - Keep local download file &nbsp;-&nbsp; by @Seven66677731 in https://github.com/OpenListTeam/OpenList/issues/1707 [<samp>(72206)</samp>](https://github.com/OpenListTeam/OpenList/commit/72206ac9)
+- **upload**:
+  - Add optional system file filtering for uploads &nbsp;-&nbsp; by @Copilot in https://github.com/OpenListTeam/OpenList/issues/1634 [<samp>(9de75)</samp>](https://github.com/OpenListTeam/OpenList/commit/9de75611)
+
+### &nbsp;&nbsp;&nbsp;🐞 Bug Fixes
+
+- **driver/123**: Initialize Platform field &nbsp;-&nbsp; by @moyanj in https://github.com/OpenListTeam/OpenList/issues/1644 [<samp>(c0d48)</samp>](https://github.com/OpenListTeam/OpenList/commit/c0d48036)
+- **link**: Correct link cache mode bitwise comparison &nbsp;-&nbsp; by @xrgzs in https://github.com/OpenListTeam/OpenList/issues/1635 [<samp>(0866b)</samp>](https://github.com/OpenListTeam/OpenList/commit/0866b907)
+- **local**: Assign non-CoW copy requests to the task module &nbsp;-&nbsp; by @KirCute in https://github.com/OpenListTeam/OpenList/issues/1669 [<samp>(ca401)</samp>](https://github.com/OpenListTeam/OpenList/commit/ca401b9a)
+- **misskey**: FolderId format validation and root directory handling &nbsp;-&nbsp; by @vxtls in https://github.com/OpenListTeam/OpenList/issues/1647 [<samp>(3989d)</samp>](https://github.com/OpenListTeam/OpenList/commit/3989d35a)
+- **openlist_driver**: Ensure UA is correctly propagated &nbsp;-&nbsp; by @Seven66677731 in https://github.com/OpenListTeam/OpenList/issues/1679 [<samp>(3e37f)</samp>](https://github.com/OpenListTeam/OpenList/commit/3e37f575)
+- **pkg/aria2**: Use pointer receivers for Call methods &nbsp;-&nbsp; by @jyxjjj in https://github.com/OpenListTeam/OpenList/issues/1706 [<samp>(62ded)</samp>](https://github.com/OpenListTeam/OpenList/commit/62dedb2a)
+- **search**: Fix duplicated variable init &nbsp;-&nbsp; by @jyxjjj in https://github.com/OpenListTeam/OpenList/issues/1703 [<samp>(aa228)</samp>](https://github.com/OpenListTeam/OpenList/commit/aa228840)
+- **strm**: Fix the name and type issue &nbsp;-&nbsp; by @varg1714 in https://github.com/OpenListTeam/OpenList/issues/1630 [<samp>(4c091)</samp>](https://github.com/OpenListTeam/OpenList/commit/4c0916b6)
+
+##### &nbsp;&nbsp;&nbsp;&nbsp;[View changes on GitHub](https://github.com/OpenListTeam/OpenList/compare/v4.1.7...v4.1.8)
+
 ## v4.1.7
 
 ### &nbsp;&nbsp;&nbsp;🚀 Features
