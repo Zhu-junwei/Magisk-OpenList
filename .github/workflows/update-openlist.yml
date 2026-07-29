@@ -1,4 +1,4 @@
-name: Auto Update Magisk OpenList
+﻿name: Auto Update Magisk OpenList
 
 on:
   schedule:
@@ -61,7 +61,6 @@ jobs:
 
   update:
     needs: check
-    if: needs.check.outputs.needs_update == 'true' || needs.check.outputs.released == 'false'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -141,3 +140,20 @@ jobs:
           artifacts: tmp/*.zip
           draft: false
           prerelease: false
+
+      - name: Keep workflow alive
+        if: always()
+        run: |
+          mkdir -p .github
+          LAST=$(cat .github/keepalive 2>/dev/null || echo "1970-01-01T00:00:00Z")
+          NOW_EPOCH=$(date -u +%s)
+          LAST_EPOCH=$(date -d "$LAST" +%s 2>/dev/null || echo 0)
+          DIFF_DAYS=$(( (NOW_EPOCH - LAST_EPOCH) / 86400 ))
+          if [ $DIFF_DAYS -ge 30 ]; then
+            date -u > .github/keepalive
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add .github/keepalive
+            git commit -m "ci: keep workflow alive" || echo "No changes to commit"
+            git push
+          fi
