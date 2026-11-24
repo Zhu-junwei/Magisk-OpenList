@@ -1,4 +1,4 @@
-﻿name: Auto Update Magisk OpenList
+name: Auto Update Magisk OpenList
 
 on:
   schedule:
@@ -114,13 +114,24 @@ jobs:
           mkdir -p tmp system/bin
           for JSON_FILE in update-json/*.json; do
             VARIANT=$(basename "$JSON_FILE" .json)
-            TAR_NAME="openlist-android-${VARIANT}.tar.gz"
+            DOWNLOAD_VARIANT="${VARIANT%-lite}"
+            TAR_NAME="openlist-android-${DOWNLOAD_VARIANT}.tar.gz"
             URL="https://github.com/OpenListTeam/OpenList/releases/download/$VERSION/$TAR_NAME"
             echo "Downloading $URL"
             mkdir -p tmp/$VARIANT
-            curl -L "$URL" -o tmp/$VARIANT/$TAR_NAME
+            curl -fL "$URL" -o tmp/$VARIANT/$TAR_NAME
+            if [ $? -ne 0 ]; then
+              echo "ERROR: Failed to download $URL"
+              exit 1
+            fi
+            file_type=$(file -b tmp/$VARIANT/$TAR_NAME 2>/dev/null || echo "unknown")
+            echo "Downloaded file type: $file_type"
             tar -xzf tmp/$VARIANT/$TAR_NAME -C tmp/$VARIANT
             OPENLIST_PATH=$(find tmp/$VARIANT -type f -name openlist | head -n 1)
+            if [ -z "$OPENLIST_PATH" ]; then
+              echo "ERROR: openlist binary not found in $TAR_NAME"
+              exit 1
+            fi
             cp "$OPENLIST_PATH" system/bin/openlist
             chmod +x system/bin/openlist
             sed -i "s#^updateJson=.*#updateJson=https://cdn.jsdelivr.net/gh/${GITHUB_REPOSITORY}@main/update-json/${VARIANT}.json#" module.prop
