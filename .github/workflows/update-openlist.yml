@@ -112,20 +112,67 @@ jobs:
         run: |
           VERSION="${{ needs.check.outputs.latest_version }}"
           mkdir -p tmp system/bin
+
+          echo "Fetching release asset list for $VERSION..."
+          ASSET_LIST=$(curl -sL "https://api.github.com/repos/OpenListTeam/OpenList/releases/tags/$VERSION" | jq -r '.assets[].name' 2>/dev/null)
+          if [ -z "$ASSET_LIST" ]; then
+            echo "ERROR: Failed to fetch asset list from GitHub API"
+            exit 1
+          fi
+          echo "Available assets:"
+          echo "$ASSET_LIST" | sed 's/^/  /'
+
           for JSON_FILE in update-json/*.json; do
             VARIANT=$(basename "$JSON_FILE" .json)
-            DOWNLOAD_VARIANT="${VARIANT%-lite}"
-            TAR_NAME="openlist-android-${DOWNLOAD_VARIANT}.tar.gz"
+            echo ""
+            echo "=== Processing variant: $VARIANT ==="
+
+            # Try multiple strategies to find the matching asset
+            TAR_NAME=""
+            # Strategy 1: exact match (e.g. openlist-android-386-lite.tar.gz)
+            EXACT="openlist-android-${VARIANT}.tar.gz"
+            if echo "$ASSET_LIST" | grep -qxF "$EXACT"; then
+              TAR_NAME="$EXACT"
+              echo "  Strategy 1 (exact): matched $TAR_NAME"
+            fi
+
+            # Strategy 2: stripped -lite suffix (e.g. openlist-android-386.tar.gz)
+            if [ -z "$TAR_NAME" ]; then
+              STRIPPED="${VARIANT%-lite}"
+              STRIPPED_ASSET="openlist-android-${STRIPPED}.tar.gz"
+              if echo "$ASSET_LIST" | grep -qxF "$STRIPPED_ASSET"; then
+                TAR_NAME="$STRIPPED_ASSET"
+                echo "  Strategy 2 (stripped): matched $TAR_NAME"
+              fi
+            fi
+
+            # Strategy 3: partial match on variant base name
+            if [ -z "$TAR_NAME" ]; then
+              BASE="${VARIANT%-lite}"
+              MATCH=$(echo "$ASSET_LIST" | grep "openlist-android-${BASE}" | head -n 1)
+              if [ -n "$MATCH" ]; then
+                TAR_NAME="$MATCH"
+                echo "  Strategy 3 (partial): matched $TAR_NAME"
+              fi
+            fi
+
+            if [ -z "$TAR_NAME" ]; then
+              echo "  WARNING: No matching asset found for variant '$VARIANT', skipping"
+              continue
+            fi
+
             URL="https://github.com/OpenListTeam/OpenList/releases/download/$VERSION/$TAR_NAME"
-            echo "Downloading $URL"
+            echo "  Downloading: $URL"
             mkdir -p tmp/$VARIANT
             curl -fL "$URL" -o tmp/$VARIANT/$TAR_NAME
             if [ $? -ne 0 ]; then
               echo "ERROR: Failed to download $URL"
               exit 1
             fi
+
             file_type=$(file -b tmp/$VARIANT/$TAR_NAME 2>/dev/null || echo "unknown")
-            echo "Downloaded file type: $file_type"
+            echo "  File type: $file_type"
+
             tar -xzf tmp/$VARIANT/$TAR_NAME -C tmp/$VARIANT
             OPENLIST_PATH=$(find tmp/$VARIANT -type f -name openlist | head -n 1)
             if [ -z "$OPENLIST_PATH" ]; then
@@ -139,6 +186,7 @@ jobs:
             zip -r "$ZIP_NAME" *.sh system/* META-INF/* module.prop
             mv "$ZIP_NAME" tmp/
             rm -rf system/bin/*
+            echo "  Done: $ZIP_NAME"
           done
 
       - name: Create GitHub release
